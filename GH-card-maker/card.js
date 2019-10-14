@@ -30,7 +30,7 @@ class Card {
       cardContainer.innerHTML =
       `
   <div class='github-card-header'>
-      <img class='github-card-logo' src='https://magentys.io/wp-content/uploads/2017/04/github-logo-1.png'>
+      <img class='github-card-logo' src='https://michaelamar1991.github.io/GH-card-maker/GH-Logo.png'>
   </div>
   <div class='github-card-content'>
       <table class='github-card-image-text-wrap'>
