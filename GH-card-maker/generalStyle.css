@@ -12,6 +12,7 @@ body{
 }
 .h1{
     border-bottom:2px solid rgb(126, 133, 133);
+    border-top:0.1px solid #09f;
     font-size:30pt;
 }
 .form-container{
