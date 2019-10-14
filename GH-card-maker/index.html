@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GitHub Card Maker</title>
+        <title>GitHub Card Maker by Michael Amar</title>
         
         <link id="fontawesome" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -24,8 +24,8 @@
                 <div class="w3-col l8 w3-card s12">
                     <div class="form-container w3-light-grey">
                         <label class="w3-text-blue"><b>Github Username : </b></label>
-                        <input class="w3-input w3-border w3-white" id="username" type="text"><br>
-                        
+                        <input class="w3-input w3-border w3-white" id="username" type="text">
+                        <br>
                         <label class="w3-text-blue"><b>Repositories that you want to add:</b></label>
                         <br>
                         <input class="w3-radio" type="radio" onclick="radioClickHandler()" name="repos" value="all">
@@ -75,7 +75,6 @@
                     card.create();
                     radioClickHandler();
                 })
-
             }
 
             function checkboxClickHandler(){
@@ -124,9 +123,7 @@
                     reposSelectContainer.style.display = 'none';
                     loadData('');
                 }
-
             }
-         
         </script>
     </body>
 </html>
