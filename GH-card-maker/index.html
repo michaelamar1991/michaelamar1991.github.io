@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GitHub Card Maker</title>
+        
+        <link id="fontawesome" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="./cardStyle.css">
+        <link rel="stylesheet" href="./generalStyle.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Acme|Francois+One">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web">
+
+        <script src='./HttpModule.js'></script>
+        <script src="./card.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <span class="h1 responsive-h1">GitHub Card Maker <span class="fa fa-github"></span></span><br><br>
+            <div class="w3-medium w3-opacity gh-desc">Hey There! With this small tool you can create GitHub Profile Card which you can furthur embed into your blog / website.<br>
+            Just enter your GH username below and select repositories and you good to go!<br>
+            You will get a code, just include it into your website.</div>
+            <br><br>
+            <div class="w3-row">
+                <div class="w3-col l8 w3-card s12">
+                    <div class="form-container w3-light-grey">
+                        <label class="w3-text-blue"><b>Github Username : </b></label>
+                        <input class="w3-input w3-border w3-white" id="username" type="text"><br>
+                        
+                        <label class="w3-text-blue"><b>Repositories that you want to add:</b></label>
+                        <br>
+                        <input class="w3-radio" type="radio" onclick="radioClickHandler()" name="repos" value="all">
+                        <label>Add All</label> &nbsp; &nbsp;
+
+                        <input class="w3-radio" type="radio" onclick="radioClickHandler()" name="repos" value="specify">
+                        <label>Specify</label> &nbsp; &nbsp;
+
+                        <input class="w3-radio" type="radio" onclick="radioClickHandler()" name="repos" value="none">
+                        <label>None</label> 
+                        <br><br>
+                        <div class="w3-animate-opacity" id="reposSelectContainer">
+                        </div>
+                        <label class="w3-text-blue"><b>Your embed code : </b></label>
+                        <div id="codeeditorfeels">
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-col l4 s12 card-preview" id="cardPreview">
+                    <span>Preview!</span><br>
+                </div>
+            </div>
+        </div>
+        <div id="footer" style="text-align:right;font-family: 'Francois One', sans-serif;background-color:#606060;color:#fff;padding:20px 30px;font-size:13pt" class="w3-card-4 w3-border-top w3-border-blue">
+            <a style="text-decoration:none;" href="https://github.com/michaelamar1991">@ Created by Michael Amar</a>
+        </div>
+
+        <script>
+            let reposSelectContainer = document.getElementById('reposSelectContainer');
+            let selectedRepos = [];    
+            let cardPreviewContainer = document.getElementById('cardPreview');
+            let repos = '';
+            let username = document.getElementById("username");
+            let http = new HttpModule();
+
+            function callApi(){
+                reposSelectContainer.innerHTML = '';
+                http.get(`https://api.github.com/users/${username.value}/repos`)
+                .then((res)=>{
+                    document.getElementById('card').setAttribute('username',username.value);
+                    for(let repo of res){
+                        reposSelectContainer.innerHTML = reposSelectContainer.innerHTML + `<input class='w3-check' type='checkbox' value='${repo.name}' onclick='checkboxClickHandler()'><label> &nbsp; ${repo.name}</label><br>`;
+                    }
+                    return res;
+                }).then((res)=>{
+                    let card = new Card(document.getElementById('card'));
+                    card.create();
+                    radioClickHandler();
+                })
+
+            }
+
+            function checkboxClickHandler(){
+                selectedRepos = [];
+                for(let check of document.getElementsByClassName('w3-check')){
+                    if(check.checked){
+                        selectedRepos.push(check.value)
+                    }
+                }
+                repos = selectedRepos.join(',');
+                loadData(repos);
+            }
+            function loadData(reposList='all'){
+                if(document.getElementById('card')){
+                    let cardRemove = document.getElementById("card");
+                    cardRemove.parentNode.removeChild(cardRemove);
+                }
+                document.getElementById('codeeditorfeels').innerHTML = 
+                `
+                            &lt;!-- Paste wherever you want your card to render --&gt;<br>
+                            &lt;<span class='tag'>div</span> <span class='attribute'>username</span>=<span class='value'>'${username.value}'</span> <span class='attribute'>repos</span>=<span class='value'>'${reposList}'</span> <span class='attribute'>class</span>=<span class='value'>'github-card'</span> <span class='attribute'>id</span>=<span class='value'>'card'</span>&gt;&lt;/<span class="tag">div</span>&gt;<br>
+                            <br>&lt;!-- Paste this script tag in head tag or before body close tag --&gt;<br>
+                            &lt;<span class='tag'>script</span> <span class='attribute'>src</span>=<span class='value'>'https://michaelamar1991.github.io/GH-card-maker/cardMaker.js'</span>&gt;&lt;/<span class="tag">script</span>&gt;
+                `;
+                let cardEl = document.createElement('div');
+                cardEl.setAttribute('username',username.value);
+                cardEl.setAttribute('repos',reposList);
+                cardEl.id = 'card';
+                cardEl.className = 'github-card';
+                cardPreviewContainer.appendChild(cardEl);
+                let card = new Card(document.getElementById('card'));
+                card.create();
+            }
+            username.addEventListener('focusout',callApi);
+
+            function radioClickHandler(){
+                let radioSelect = document.querySelector('input[name="repos"]:checked').value;
+                console.log(radioSelect);
+                if(radioSelect == 'all'){
+                    reposSelectContainer.style.display = 'none';
+                    loadData('all');
+                }else if(radioSelect == 'specify'){
+                    reposSelectContainer.style.display = 'block';
+                    loadData(repos);
+                }else{
+                    reposSelectContainer.style.display = 'none';
+                    loadData('');
+                }
+
+            }
+         
+        </script>
+    </body>
+</html>

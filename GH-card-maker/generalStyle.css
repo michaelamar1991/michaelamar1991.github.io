@@ -1,0 +1,77 @@
+body{
+    background-color: rgb(219, 219, 219);
+}
+.container{
+    margin-top:70px;
+    padding:70px;
+    text-align:center;
+    font-family: 'Acme', sans-serif;
+}
+.container .h1{
+    font-family: 'Francois One', sans-serif;
+}
+.h1{
+    border-bottom:2px solid rgb(126, 133, 133);
+    font-size:30pt;
+}
+.form-container{
+    text-align: left;
+    padding:50px 100px;
+}
+.w3-radio{
+    outline:0 !important;
+}
+#reposSelectContainer{
+    max-height:300px;
+    overflow-y:scroll;
+    background-color:#fff;
+    padding:0px 30px;
+    border:1px solid #111;
+    display:none;
+}
+
+#codeeditorfeels{
+    background-color:#222;
+    color:#999;
+    font-family: 'Titillium Web', sans-serif;
+    padding:20px;
+    font-size:9pt;
+    border:2px solid #000;
+}
+.tag{
+    color:#09f;
+}
+.attribute{
+    color:#8ff
+}
+.value{
+    color:rgb(255, 170, 170);
+}
+.gh-desc{
+    text-align:center;
+    padding:10px 100px;
+}
+.gh-desc > a{
+    color:#09f;
+}
+@media (max-width:768px){
+    .responsive-h1{
+        font-size:14pt;
+    }
+    .container{
+        padding:40px 0px 30px 0px;
+    }
+    .form-container{
+        padding:10px 20px;
+    }
+    .card-preview{
+        padding-top:20px;
+    }
+    #codeeditorfeels{
+        padding:14px;
+        font-size:7pt;
+    }
+    .gh-desc{
+        padding:10px 10px;
+    }
+}
